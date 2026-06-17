@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Elegant | Інтернет-магазин</title>
+
+    @Styles.Render("~/Content/shop")
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="shop-body">
+
+    <!-- ===================== ХЕДЕР ===================== -->
+    <header class="lux-header">
+        <div class="lux-header-inner">
+            <a href="@Url.Action("Index", "Shop")" class="lux-logo">Elegant<span>.</span></a>
+
+            <ul class="lux-nav">
+                <li><a href="@Url.Action("Index", "Shop")" class="@(ViewBag.ActivePage == "home" ? "active" : "")">Головна</a></li>
+                <li><a href="@Url.Action("Catalog", "Shop")" class="@(ViewBag.ActivePage == "catalog" ? "active" : "")">Магазин</a></li>
+                <li><a href="@Url.Action("About", "Home")">Про нас</a></li>
+                <li><a href="@Url.Action("Contact", "Home")">Контакти</a></li>
+            </ul>
+
+            <div class="lux-header-actions">
+                @{
+                    var cart = this.Context.Session != null ? (Elegant.Models.Cart)this.Context.Session["ElegantCart"] : null;
+                    bool isAuth = Request.IsAuthenticated;
+                    bool isAdminUser = isAuth && string.Equals(User.Identity.Name, "elegant@gmail.com", System.StringComparison.OrdinalIgnoreCase);
+                    string currentUserName = isAuth ? User.Identity.Name : "";
+                }
+                <a href="@Url.Action("Index", "Cart")" class="lux-icon-link">
+                    Кошик
+                    <span class="lux-cart-count">@(cart != null ? cart.TotalItems : 0)</span>
+                </a>
+                @if (isAuth)
+                {
+                    if (isAdminUser)
+                    {
+                        <a href="@Url.Action("Index", "Admin")" class="lux-icon-link">Адмін-панель</a>
+                    }
+                    else
+                    {
+                        <span class="lux-icon-link">@currentUserName</span>
+                    }
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { style = "display:inline-block; margin:0;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="lux-icon-link" style="background:none; border:none; padding:0; cursor:pointer;">Вийти</button>
+                    }
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Account")" class="lux-icon-link">Вхід</a>
+                }
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================== КОНТЕНТ ===================== -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- ===================== ФУТЕР ===================== -->
+    <footer class="lux-footer">
+        <div class="lux-container">
+            <div class="lux-footer-grid">
+                <div>
+                    <h5>Магазин</h5>
+                    <ul>
+                        <li><a href="@Url.Action("Catalog", "Shop", new { category = "osvitlennya" })">Освітлення</a></li>
+                        <li><a href="@Url.Action("Catalog", "Shop", new { category = "mebli" })">Меблі</a></li>
+                        <li><a href="@Url.Action("Catalog", "Shop", new { category = "dekor" })">Декор</a></li>
+                        <li><a href="@Url.Action("Catalog", "Shop", new { category = "tekstil" })">Текстиль</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Меню</h5>
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Shop")">Головна</a></li>
+                        <li><a href="@Url.Action("Catalog", "Shop")">Магазин</a></li>
+                        <li><a href="@Url.Action("About", "Home")">Про нас</a></li>
+                        <li><a href="@Url.Action("Contact", "Home")">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Контакти</h5>
+                    <ul>
+                        <li><a href="tel:+380673525225">+38 (067) 352 52 25</a></li>
+                        <li><a href="mailto:office@mebli-elegant.com.ua">office@mebli-elegant.com.ua</a></li>
+                        <li>смт. Гусятин, вул. Богдана Лепкого 41а</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Соціальні мережі</h5>
+                    <ul>
+                        <li><a href="https://www.facebook.com/" target="_blank">Facebook</a></li>
+                        <li><a href="https://www.instagram.com/" target="_blank">Instagram</a></li>
+                        <li><a href="https://tiktok.com/" target="_blank">TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="lux-footer-bottom">
+                &copy; @DateTime.Now.Year Elegant. Всі права захищені.
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

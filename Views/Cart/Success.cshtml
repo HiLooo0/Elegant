@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Замовлення прийнято";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<section class="section-padding">
+    <div class="lux-container">
+        <div class="lux-empty-cart" style="padding: 100px 20px;">
+            <h2 class="lux-section-title">Дякуємо за замовлення!</h2>
+            <p>Ваше замовлення №@ViewBag.OrderId успішно прийнято. Наш менеджер зв'яжеться з вами найближчим часом для підтвердження.</p>
+            <a href="@Url.Action("Catalog", "Shop")" class="lux-btn-accent" style="margin-top: 24px; display: inline-block;">До каталогу</a>
+        </div>
+    </div>
+</section>

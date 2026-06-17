@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Панель управління";
+}
+
+<div class="page-header">
+    <h2>Ласкаво просимо до системи обліку складу!</h2>
+    <p class="lead">
+        Оберіть одну з дій нижче, щоб розпочати роботу.
+    </p>
+</div>
+
+<div class="row">
+    <!-- Блок 1: Перегляд залишків -->
+    <div class="col-md-4">
+        <div class="dashboard-panel text-center">
+            <h3>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <br />
+                Асортимент товарів
+            </h3>
+            <p>Перегляд списку всіх меблів та їх характеристик.</p>
+            @Html.ActionLink("Перейти до списку", "Index", "Products", null, new { @class = "btn btn-default btn-block" })
+        </div>
+    </div>
+
+    <!-- Блок 2: Оформлення надходження -->
+    <div class="col-md-4">
+        <div class="dashboard-panel text-center">
+            <h3>
+                <span class="glyphicon glyphicon-log-in"></span>
+                <br />
+                Надходження
+            </h3>
+            <p>Створення прибуткової накладної для оприбуткування меблів.</p>
+            @Html.ActionLink("Створити накладну", "Create", "WarehouseEntries", null, new { @class = "btn btn-primary btn-block" })
+        </div>
+    </div>
+
+    <!-- Блок 3: Додавання нових меблів -->
+    <div class="col-md-4">
+        <div class="dashboard-panel text-center">
+            <h3>
+                <span class="glyphicon glyphicon-plus"></span>
+                <br />
+                Додати нові меблі
+            </h3>
+            <p>Додавання нової одиниці меблів до загального довідника.</p>
+            @Html.ActionLink("Додати меблі", "Create", "Products", null, new { @class = "btn btn-default btn-block" })
+        </div>
+    </div>
+</div>

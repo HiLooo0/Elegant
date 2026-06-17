@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Панель управління Elegant</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="admin-body">
+    <div class="page-wrapper">
+
+        <!-- Темно-синя навігаційна панель адмінки -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <span class="navbar-brand">Елегант. Складський облік</span>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="@Url.Action("Index", "Admin")">Панель дій</a></li>
+                        <li><a href="@Url.Action("Index", "Products")">Товари</a></li>
+                        <li><a href="@Url.Action("Index", "Categories")">Категорії</a></li>
+                        <li><a href="@Url.Action("Orders", "Admin")">Замовлення</a></li>
+                        <li><a href="@Url.Action("Reviews", "Admin")">Відгуки</a></li>
+                        <li><a href="@Url.Action("Index", "Shop")" target="_blank">Перейти на сайт</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li><span class="navbar-text" style="color: #ecf0f1; font-weight: 500;">Привіт, @User.Identity.Name!</span></li>
+                            <li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:none;" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                }
+                                <a href="javascript:document.getElementById('logoutForm').submit()" class="btn-logout-admin">Вийти</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Робоча область контенту -->
+        <main class="main-content">
+            <div class="container body-content">
+                @RenderBody()
+            </div>
+        </main>
+
+        <!-- Твій улюблений синій футер -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <p class="copyright-text">&copy; @DateTime.Now.Year - Елегант. Система обліку складу меблевої фабрики.</p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <p class="author-text" style="margin:0; text-align:right;">Розроблено Viktor Berlizov</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div> <!-- Кінець .page-wrapper -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

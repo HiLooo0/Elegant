@@ -1,0 +1,16 @@
+﻿@model Elegant.Models.Category
+@{ ViewBag.Title = "Видалення категорії"; }
+
+<h2>Видалення категорії</h2>
+<hr />
+<h3>Ви впевнені, що хочете видалити категорію "@Model.Name"?</h3>
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Назад до списку", "Index")
+        </div>
+    }
+</div>

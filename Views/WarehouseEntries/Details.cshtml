@@ -1,0 +1,101 @@
+﻿@* Змінюємо модель на нашу ViewModel, яка містить всі потрібні дані *@
+@model Elegant.Models.WarehouseEntryDetailViewModel
+
+@{
+    ViewBag.Title = "Деталі надходження №" + Model.WarehouseEntry.Id;
+}
+
+<h2>Деталі надходження № @Model.WarehouseEntry.Id</h2>
+<hr />
+
+<!-- Блок 1: "Шапка" документа -->
+<div>
+    <h4>Інформація про документ</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WarehouseEntry.EntryDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WarehouseEntry.EntryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarehouseEntry.Source)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WarehouseEntry.Source)
+        </dd>
+    </dl>
+</div>
+<hr />
+
+
+<!-- Блок 2: Вміст документа (таблиця з доданими меблями) -->
+<h4>Вміст накладної</h4>
+<table class="table">
+    <tr>
+        <th>Назва меблів</th>
+        <th>Кількість</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.WarehouseEntry.Items)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.ActionLink("Видалити", "DeleteItem", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+            </td>
+        </tr>
+    }
+</table>
+<hr />
+
+
+<!-- Блок 3: Форма для додавання нових меблів -->
+<h4>Додати меблі в накладну</h4>
+@using (Html.BeginForm("AddItem", "WarehouseEntries", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @* Це приховане поле передає ID накладної, щоб система знала, куди додавати товар *@
+        @Html.HiddenFor(model => model.NewEntryItem.WarehouseEntryId)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Меблі</label>
+            <div class="col-md-10">
+                @* Випадаючий список з усіма доступними меблями *@
+                @Html.DropDownListFor(model => model.NewEntryItem.ProductId, Model.ProductsSelectList, "--- Оберіть меблі ---", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NewEntryItem.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Кількість</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewEntryItem.Quantity, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1" } })
+                @Html.ValidationMessageFor(model => model.NewEntryItem.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Додати в накладну" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+<p>
+    @Html.ActionLink("Редагувати шапку", "Edit", new { id = Model.WarehouseEntry.Id }) |
+    @Html.ActionLink("Повернутись до списку", "Index")
+</p>

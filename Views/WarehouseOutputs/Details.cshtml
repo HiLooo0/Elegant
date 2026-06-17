@@ -1,0 +1,58 @@
+﻿@model Elegant.Models.WarehouseOutputDetailViewModel
+@{ ViewBag.Title = "Деталі відвантаження №" + Model.WarehouseOutput.Id; }
+
+<h2>Деталі відвантаження № @Model.WarehouseOutput.Id</h2>
+<hr />
+
+<div>
+    <h4>Інформація про документ</h4>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.WarehouseOutput.OutputDate)</dt>
+        <dd>@Html.DisplayFor(model => model.WarehouseOutput.OutputDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.WarehouseOutput.Destination)</dt>
+        <dd>@Html.DisplayFor(model => model.WarehouseOutput.Destination)</dd>
+    </dl>
+</div>
+<hr />
+
+<h4>Відвантажені товари</h4>
+<table class="table">
+    <tr><th>Назва товару</th><th>Кількість</th><th></th></tr>
+    @foreach (var item in Model.WarehouseOutput.Items)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+            <td>@Html.ActionLink("Видалити", "DeleteItem", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })</td>
+        </tr>
+    }
+</table>
+<hr />
+
+<h4>Додати товар до відвантаження</h4>
+@using (Html.BeginForm("AddItem", "WarehouseOutputs", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.NewOutputItem.WarehouseOutputId)
+        <div class="form-group">
+            <label class="control-label col-md-2">Товар</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.NewOutputItem.ProductId, Model.ProductsSelectList, "--- Оберіть товар ---", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Кількість</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewOutputItem.Quantity, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Додати до накладної" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<p>@Html.ActionLink("Повернутись до списку", "Index")</p>

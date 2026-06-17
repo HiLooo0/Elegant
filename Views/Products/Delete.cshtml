@@ -1,0 +1,61 @@
+﻿@model Elegant.Models.Product
+
+@{
+    ViewBag.Title = "Видалення товару";
+}
+
+<h2>Видалення товару з асортименту</h2>
+<hr />
+
+<div class="alert alert-danger">
+    <h3>Ви впевнені, що хочете остаточно видалити "@Model.Name"?</h3>
+    <p>
+        Ця дія є незворотною. Всі дані про цей товар будуть втрачені.
+    </p>
+</div>
+
+
+<div>
+    <h4>Детальна інформація про товар:</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Article)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Article)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Так, видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Ні, повернутись до списку", "Index")
+        </div>
+    }
+</div>

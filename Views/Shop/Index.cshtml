@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Elegant.Models.Product>
+@{
+    ViewBag.Title = "Головна";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<!-- ===================== HERO ===================== -->
+<section class="lux-hero">
+    <div class="lux-hero-card" style="background-image: url('https://images.unsplash.com/photo-1618219740975-d40978bb7378?q=80&w=1200&auto=format&fit=crop');">
+        <div class="lux-hero-content">
+            <h1>Створи свій<br />ідеальний інтер'єр</h1>
+            <p>Стиль та атмосфера у кожній деталі</p>
+            <a href="@Url.Action("Catalog", "Shop")" class="lux-btn">До каталогу</a>
+        </div>
+    </div>
+    <div class="lux-hero-card" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1200&auto=format&fit=crop');">
+        <div class="lux-hero-content">
+            <h2>Простір із натхненням<br />у кожній деталі</h2>
+            <p>Меблі, світильники, декор та аксесуари</p>
+            <a href="@Url.Action("Catalog", "Shop")" class="lux-btn">До каталогу</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== КАТЕГОРІЇ ===================== -->
+<section class="section-padding">
+    <div class="lux-container">
+        <h2 class="lux-section-title">Категорії</h2>
+        <div class="lux-categories">
+            @{
+                var catImages = new[] {
+                    "https://elekomp.com.ua/image/catalog/blog/svetpodves.jpg",
+                    "https://depositphotos-blog.s3.eu-west-1.amazonaws.com/uploads/2022/09/inter-yerna-fotografiya-7.jpeg",
+                    "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1522771930-78848d9293e8?q=80&w=600&auto=format&fit=crop"
+                };
+                int ci = 0;
+            }
+            @foreach (var cat in ViewBag.Categories)
+            {
+                <div class="lux-category-card" style="background-image: url('@catImages[ci % catImages.Length]');">
+                    <span>@cat.Name</span>
+                    <a class="lux-cat-link" href="@Url.Action("Catalog", "Shop", new { categoryId = cat.Id })">Детальніше</a>
+                </div>
+                ci++;
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===================== ХІТИ ПРОДАЖУ ===================== -->
+<section class="section-padding" style="background-color: #fff;">
+    <div class="lux-container">
+        <h2 class="lux-section-title">Топ продажу</h2>
+        <div class="lux-products-grid">
+            @foreach (var product in Model)
+            {
+                <div class="lux-product-card">
+                    @if (product.IsFeatured)
+                    {
+                        <span class="lux-product-badge">Хіт</span>
+                    }
+                    else if (product.OldPrice.HasValue && product.OldPrice > product.Price)
+                    {
+                        <span class="lux-product-badge">Акція</span>
+                    }
+                    <a href="@Url.Action("Product", "Shop", new { id = product.Id })">
+                        <img class="lux-product-img" src="@(string.IsNullOrEmpty(product.ImageUrl) ? "https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=600&auto=format&fit=crop" : product.ImageUrl)" alt="@product.Name" />
+                    </a>
+                    <div class="lux-product-info">
+                        <div class="lux-product-name">
+                            <a href="@Url.Action("Product", "Shop", new { id = product.Id })" style="color: inherit;">@product.Name</a>
+                        </div>
+                        <div class="lux-product-desc">@product.Description</div>
+                        <div class="lux-product-price">
+                            @if (product.OldPrice.HasValue && product.OldPrice > product.Price)
+                            {
+                                <span class="old">@product.OldPrice.Value.ToString("N0") ₴</span>
+                            }
+                            @product.Price.ToString("N0") ₴
+                        </div>
+                        @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="lux-btn-accent lux-product-buy">Купити</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===================== СЕЗОННІ ЗНИЖКИ ===================== -->
+<section class="section-padding">
+    <div class="lux-container">
+        <div class="lux-banner" style="background-image: url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1400&auto=format&fit=crop');">
+            <div class="lux-banner-content">
+                <span class="lux-tag">-10%</span>
+                <h2>Придбай колекцію для стильних приміщень зі знижкою</h2>
+                <a href="@Url.Action("Catalog", "Shop")" class="lux-btn">До каталогу</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== БЛОГ ===================== -->
+<section class="section-padding" style="background-color: #fff;">
+    <div class="lux-container">
+        <h2 class="lux-section-title">Блог</h2>
+        <div class="lux-blog-grid">
+            <div class="lux-blog-card">
+                <img src="https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?q=80&w=600&auto=format&fit=crop" alt="" />
+                <h4>Освітлення: як створити правильну атмосферу</h4>
+                <p>Огляд актуальних тенденцій та рекомендації щодо вибору освітлення для різних просторів.</p>
+                <a class="lux-more" href="#">Детальніше</a>
+            </div>
+            <div class="lux-blog-card">
+                <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=600&auto=format&fit=crop" alt="" />
+                <h4>Кольорова палітра лофт: як не зіпсувати інтер'єр</h4>
+                <p>Які кольори використовувати, щоб інтер'єр виглядав сучасно та дорого.</p>
+                <a class="lux-more" href="#">Детальніше</a>
+            </div>
+            <div class="lux-blog-card">
+                <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=600&auto=format&fit=crop" alt="" />
+                <h4>Декор у стилі лофт: мінімум деталей — максимум ефекту</h4>
+                <p>Як додати інтер'єру характер без перевантаження простору.</p>
+                <a class="lux-more" href="#">Детальніше</a>
+            </div>
+        </div>
+    </div>
+</section>

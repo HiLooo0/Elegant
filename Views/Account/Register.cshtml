@@ -1,0 +1,51 @@
+﻿@model Elegant.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Реєстрація нового користувача";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<div class="lux-container section-padding" style="max-width: 500px; margin: 40px auto;">
+    <div class="auth-card" style="background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+        <h2 style="text-align: center; margin-bottom: 30px; font-weight: 600;">Реєстрація</h2>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="font-weight: 500; margin-bottom: 8px; display: block;">Ім'я та прізвище</label>
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Ваше ім'я", style = "height: 45px; border-radius: 4px;" })
+                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="font-weight: 500; margin-bottom: 8px; display: block;">Email адреса</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "example@mail.com", style = "height: 45px; border-radius: 4px;" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="font-weight: 500; margin-bottom: 8px; display: block;">Пароль</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Мінімум 6 символів", style = "height: 45px; border-radius: 4px;" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label style="font-weight: 500; margin-bottom: 8px; display: block;">Підтвердження паролю</label>
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Повторіть пароль", style = "height: 45px; border-radius: 4px;" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="lux-btn" style="width: 100%; border: none; font-weight: 600;">Зареєструватися</button>
+
+            <p style="text-align: center; margin-top: 25px; color: #777;">
+                Вже зареєстровані? <a href="@Url.Action("Login", "Account")" style="color: #c8a47e; font-weight: 500;">Увійти</a>
+            </p>
+        }
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

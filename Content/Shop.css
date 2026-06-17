@@ -1,0 +1,754 @@
+/* =========================================================
+   ELEGANT SHOP — публічна частина магазину
+   Кольорова палітра відповідає демо-сайту:
+   - фон: теплий кремовий #f6f2ec
+   - текст: глибокий графіт #232323
+   - акцент: золотисто-бежевий #c8a47e
+   - темні елементи: #1c1c1c
+   ========================================================= */
+
+:root {
+    --lux-bg: #f6f2ec;
+    --lux-bg-alt: #ffffff;
+    --lux-dark: #1c1c1c;
+    --lux-text: #232323;
+    --lux-muted: #8a8a8a;
+    --lux-accent: #c8a47e;
+    --lux-accent-dark: #b08c63;
+    --lux-border: #e6e0d8;
+    --lux-radius: 6px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body.shop-body {
+    min-height: 100%;
+}
+
+body.shop-body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--lux-bg);
+    color: var(--lux-text);
+    padding-top: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.shop-body > main {
+    flex: 1 0 auto;
+}
+
+body.shop-body > .lux-footer {
+    flex-shrink: 0;
+}
+
+.lux-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.section-padding {
+    padding: 60px 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ===================== HEADER ===================== */
+.lux-header {
+    background-color: var(--lux-bg-alt);
+    border-bottom: 1px solid var(--lux-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.lux-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    max-width: 1240px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.lux-logo {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--lux-dark);
+    text-transform: uppercase;
+}
+
+.lux-logo span {
+    color: var(--lux-accent);
+}
+
+.lux-nav {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.lux-nav a {
+    color: var(--lux-text);
+    font-size: 15px;
+    font-weight: 500;
+    transition: color .2s ease;
+}
+
+.lux-nav a:hover, .lux-nav a.active {
+    color: var(--lux-accent-dark);
+}
+
+.lux-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.lux-icon-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--lux-dark);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.lux-cart-count {
+    background-color: var(--lux-accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===================== HERO ===================== */
+.lux-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 40px 24px;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.lux-hero-card {
+    position: relative;
+    border-radius: var(--lux-radius);
+    overflow: hidden;
+    min-height: 420px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    color: #fff;
+}
+
+.lux-hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.55) 100%);
+}
+
+.lux-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 32px;
+}
+
+.lux-hero-content h1, .lux-hero-content h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    line-height: 1.25;
+}
+
+.lux-hero-content p {
+    margin: 0 0 18px;
+    font-size: 15px;
+    opacity: .9;
+}
+
+@media (max-width: 860px) {
+    .lux-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .lux-hero-card {
+        min-height: 280px;
+    }
+}
+
+/* ===================== BUTTONS ===================== */
+.lux-btn {
+    display: inline-block;
+    background-color: var(--lux-dark);
+    color: #fff;
+    padding: 13px 30px;
+    border-radius: var(--lux-radius);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    transition: background-color .2s ease, transform .15s ease;
+    cursor: pointer;
+}
+
+.lux-btn:hover {
+    background-color: var(--lux-accent-dark);
+    color: #fff;
+}
+
+.lux-btn-outline {
+    display: inline-block;
+    background-color: transparent;
+    border: 1.5px solid var(--lux-dark);
+    color: var(--lux-dark);
+    padding: 11px 28px;
+    border-radius: var(--lux-radius);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    transition: all .2s ease;
+}
+
+.lux-btn-outline:hover {
+    background-color: var(--lux-dark);
+    color: #fff;
+}
+
+.lux-btn-accent {
+    display: inline-block;
+    background-color: var(--lux-accent);
+    color: #fff;
+    padding: 13px 30px;
+    border-radius: var(--lux-radius);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    border: none;
+    transition: background-color .2s ease;
+    cursor: pointer;
+}
+
+.lux-btn-accent:hover {
+    background-color: var(--lux-accent-dark);
+    color: #fff;
+}
+
+.lux-btn-sm {
+    padding: 8px 18px;
+    font-size: 12px;
+}
+
+/* ===================== SECTION TITLES ===================== */
+.lux-section-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 0 36px;
+    text-transform: uppercase;
+    color: var(--lux-dark);
+}
+
+/* ===================== CATEGORIES ===================== */
+.lux-categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .lux-categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.lux-category-card {
+    position: relative;
+    border-radius: var(--lux-radius);
+    overflow: hidden;
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    color: #fff;
+    text-align: center;
+    padding: 24px;
+}
+
+.lux-category-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.6) 100%);
+}
+
+.lux-category-card span {
+    position: relative;
+    z-index: 2;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.lux-category-card a.lux-cat-link {
+    position: relative;
+    z-index: 2;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,.6);
+    padding-bottom: 2px;
+}
+
+/* ===================== PRODUCT GRID ===================== */
+.lux-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 992px) {
+    .lux-products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .lux-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.lux-product-card {
+    background-color: var(--lux-bg-alt);
+    border: 1px solid var(--lux-border);
+    border-radius: var(--lux-radius);
+    overflow: hidden;
+    transition: box-shadow .25s ease, transform .25s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.lux-product-card:hover {
+    box-shadow: 0 12px 30px rgba(0,0,0,.08);
+    transform: translateY(-4px);
+}
+
+.lux-product-img {
+    width: 100%;
+    aspect-ratio: 7/9;
+    object-fit: cover;
+    background-color: #ece6dd;
+    display: block;
+}
+
+.lux-product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--lux-accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+.lux-product-info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+}
+
+.lux-product-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--lux-dark);
+    line-height: 1.35;
+}
+
+.lux-product-desc {
+    font-size: 13px;
+    color: var(--lux-muted);
+    min-height: 18px;
+}
+
+.lux-product-price {
+    margin-top: auto;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--lux-dark);
+}
+
+.lux-product-price .old {
+    text-decoration: line-through;
+    color: var(--lux-muted);
+    font-weight: 400;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.lux-product-buy {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+/* ===================== FILTERS / CATALOG ===================== */
+.lux-catalog-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+}
+
+@media (max-width: 860px) {
+    .lux-catalog-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.lux-filter-box {
+    background-color: var(--lux-bg-alt);
+    border: 1px solid var(--lux-border);
+    border-radius: var(--lux-radius);
+    padding: 20px;
+}
+
+.lux-filter-box h4 {
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin: 0 0 14px;
+    color: var(--lux-dark);
+}
+
+.lux-filter-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+}
+
+.lux-filter-box ul li {
+    margin-bottom: 8px;
+}
+
+.lux-filter-box ul li a {
+    color: var(--lux-text);
+    font-size: 14px;
+    transition: color .2s ease;
+}
+
+.lux-filter-box ul li a:hover, .lux-filter-box ul li a.active {
+    color: var(--lux-accent-dark);
+    font-weight: 600;
+}
+
+/* ===================== BANNER ===================== */
+.lux-banner {
+    position: relative;
+    border-radius: var(--lux-radius);
+    overflow: hidden;
+    min-height: 280px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.lux-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+}
+
+.lux-banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+.lux-banner-content .lux-tag {
+    display: inline-block;
+    background-color: var(--lux-accent);
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.lux-banner-content h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 18px;
+}
+
+/* ===================== BLOG ===================== */
+.lux-blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 860px) {
+    .lux-blog-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.lux-blog-card img {
+    width: 100%;
+    aspect-ratio: 10/8;
+    object-fit: cover;
+    border-radius: var(--lux-radius);
+    margin-bottom: 14px;
+}
+
+.lux-blog-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--lux-dark);
+}
+
+.lux-blog-card p {
+    font-size: 14px;
+    color: var(--lux-muted);
+    margin: 0 0 10px;
+}
+
+.lux-blog-card a.lux-more {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--lux-accent-dark);
+    border-bottom: 1px solid var(--lux-accent-dark);
+}
+
+/* ===================== FOOTER ===================== */
+.lux-footer {
+    background-color: var(--lux-dark);
+    color: #cfcac1;
+    padding: 50px 0 20px;
+    margin-top: 60px;
+}
+
+.lux-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+@media (max-width: 860px) {
+    .lux-footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.lux-footer h5 {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin: 0 0 16px;
+}
+
+.lux-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lux-footer ul li {
+    margin-bottom: 8px;
+}
+
+.lux-footer a {
+    color: #cfcac1;
+    font-size: 14px;
+    transition: color .2s ease;
+}
+
+.lux-footer a:hover {
+    color: var(--lux-accent);
+}
+
+.lux-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.1);
+    margin-top: 30px;
+    padding-top: 18px;
+    text-align: center;
+    font-size: 13px;
+    color: #8a8a8a;
+}
+
+/* ===================== CART ===================== */
+.lux-cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lux-cart-table th {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--lux-muted);
+    border-bottom: 1px solid var(--lux-border);
+    padding: 12px 8px;
+}
+
+.lux-cart-table td {
+    padding: 16px 8px;
+    border-bottom: 1px solid var(--lux-border);
+    vertical-align: middle;
+}
+
+.lux-cart-product {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lux-cart-product img {
+    width: 64px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #ece6dd;
+}
+
+.lux-qty-input {
+    width: 64px;
+    padding: 6px 8px;
+    border: 1px solid var(--lux-border);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.lux-cart-summary {
+    background-color: var(--lux-bg-alt);
+    border: 1px solid var(--lux-border);
+    border-radius: var(--lux-radius);
+    padding: 24px;
+}
+
+.lux-cart-summary .row-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.lux-cart-summary .row-line.total {
+    font-size: 18px;
+    font-weight: 700;
+    border-top: 1px solid var(--lux-border);
+    padding-top: 12px;
+    margin-top: 12px;
+}
+
+.lux-empty-cart {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--lux-muted);
+}
+
+/* ===================== AUTH CARD ===================== */
+.auth-card {
+    background-color: var(--lux-bg-alt);
+    border: 1px solid var(--lux-border);
+}
+
+/* ===================== ADMIN ENHANCEMENTS ===================== */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.admin-stat-card {
+    background-color: #fff;
+    border: 1px solid #e2e6ea;
+    border-radius: 8px;
+    padding: 18px 20px;
+    text-align: center;
+}
+
+.admin-stat-card .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.admin-stat-card .stat-label {
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-top: 4px;
+}
+
+.admin-stat-card.warn .stat-value {
+    color: #e67e22;
+}
+
+.dashboard-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 110px;
+    background-color: #fff;
+    border: 1px solid #e2e6ea;
+    border-radius: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+    transition: all .2s ease;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.dashboard-btn:hover {
+    background-color: #1abc9c;
+    color: #fff;
+    border-color: #1abc9c;
+}

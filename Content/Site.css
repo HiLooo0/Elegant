@@ -1,0 +1,246 @@
+﻿html {
+    height: 100%;
+}
+
+body {
+    display: flex; /* <<< Робимо body гнучким контейнером */
+    flex-direction: column; /* <<< Встановлюємо вертикальний напрямок */
+    min-height: 100vh; /* <<< Body займає мінімум 100% висоти екрану */
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 70px; /* Відступ зверху через фіксоване меню */
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+/* Основний контейнер для контенту */
+.body-content {
+    padding: 30px;
+    background-color: #ffffff; /* Білий фон для робочої області */
+    border-radius: 8px; /* Легке заокруглення кутів */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Легка тінь для об'єму */
+}
+
+/* Налаштування верхнього меню (навігації) */
+.navbar-inverse {
+    background-color: #2c3e50; /* Професійний темно-синій колір */
+    border-color: #2c3e50;
+    font-size: 16px;
+}
+
+    /* Посилання в меню */
+    .navbar-inverse .navbar-nav > li > a {
+        color: #ecf0f1; /* Світлий колір для тексту */
+        transition: all 0.2s ease-in-out; /* Плавна анімація при наведенні */
+    }
+
+        /* Посилання в меню при наведенні миші */
+        .navbar-inverse .navbar-nav > li > a:hover,
+        .navbar-inverse .navbar-nav > li > a:focus {
+            color: #ffffff;
+            background-color: #34495e; /* Трохи світліший фон при наведенні */
+        }
+
+    /* Назва сайту в меню */
+    .navbar-inverse .navbar-brand {
+        color: #ffffff;
+        font-weight: 700; /* Жирний шрифт */
+        font-size: 20px;
+    }
+
+/* Стилізація таблиць */
+.table {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+
+    /* Заголовки таблиць */
+    .table th {
+        background-color: #ecf0f1; /* Світло-сірий фон для заголовків */
+        color: #34495e;
+        font-weight: 700;
+    }
+
+/* Рядки таблиці при наведенні */
+.table-hover > tbody > tr:hover {
+    background-color: #f9f9f9; /* Легке підсвічування рядка */
+    cursor: pointer;
+}
+
+/* Стилізація кнопок */
+.btn-primary {
+    background-color: #1abc9c; /* Приємний бірюзовий колір */
+    border-color: #1abc9c;
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn-primary:hover {
+        background-color: #16a085; /* Трохи темніший при наведенні */
+        border-color: #16a085;
+    }
+
+/* Кнопка "Створити" */
+.btn-create {
+    margin-bottom: 20px;
+}
+
+/* Стилізація полів вводу (форм) */
+.form-control {
+    border-radius: 4px;
+    box-shadow: none;
+    border-color: #d2d6de;
+}
+
+    .form-control:focus {
+        border-color: #1abc9c;
+        box-shadow: none;
+    }
+
+/* Стилізація підвалу (footer) */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+}
+/* Стилі для панелі управління на головній сторінці */
+.dashboard-panel {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+    .dashboard-panel:hover {
+        transform: translateY(-5px); /* Ефект "підняття" при наведенні */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-panel h3 {
+        margin-top: 0;
+        color: #2c3e50;
+    }
+
+    .dashboard-panel .glyphicon {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+/* Стилізація логотипу в навігаційній панелі */
+.navbar-brand > img {
+    height: 40px; /* <<< Збільшили висоту */
+    margin-top: -10px; /* <<< Скоригували відступ для ідеального центрування */
+    display: inline-block;
+}
+/*
+=========================================
+СТИЛІ ДЛЯ НОВОГО ФУТЕРУ
+=========================================
+*/
+.site-footer {
+    background-color: #2c3e50; /* Такий же колір, як у навігації */
+    padding: 45px 0 20px;
+    font-size: 15px;
+    line-height: 24px;
+    color: #bdc3c7; /* Світло-сірий текст */
+}
+
+    .site-footer hr {
+        border-top-color: #bbb;
+        opacity: 0.5;
+    }
+
+    .site-footer h5 {
+        color: #fff;
+        font-size: 16px;
+        text-transform: uppercase;
+        margin-top: 5px;
+        letter-spacing: 2px;
+    }
+
+    .site-footer a {
+        color: #bdc3c7;
+        transition: color 0.2s ease-in-out;
+    }
+
+        .site-footer a:hover {
+            color: #1abc9c; /* Наш фірмовий бірюзовий колір при наведенні */
+            text-decoration: none;
+        }
+
+.footer-links {
+    padding-left: 0;
+    list-style: none;
+}
+
+    .footer-links li {
+        display: block;
+    }
+
+.copyright-text {
+    margin: 0;
+}
+
+.author-text {
+    margin: 0;
+    text-align: right;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 991px) {
+    .site-footer [class^=col-] {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .site-footer {
+        padding-bottom: 0;
+    }
+
+    .author-text, .copyright-text {
+        text-align: center;
+    }
+}
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.body-content {
+    flex-grow: 1; /* <<< Дозволяємо основному контенту розтягуватися і займати весь вільний простір */
+}
+
+/* ===================== ADMIN DASHBOARD ENHANCEMENTS ===================== */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.admin-stat-card {
+    background-color: #fff;
+    border: 1px solid #e2e6ea;
+    border-radius: 8px;
+    padding: 18px 20px;
+    text-align: center;
+}
+
+.admin-stat-card .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.admin-stat-card .stat-label {
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-top: 4px;
+}
+
+.admin-stat-card.warn .stat-value {
+    color: #e67e22;
+}

@@ -1,0 +1,84 @@
+﻿@model Elegant.Models.Cart
+@{
+    ViewBag.Title = "Кошик";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<section class="section-padding">
+    <div class="lux-container">
+        <h2 class="lux-section-title">Кошик</h2>
+
+        @if (!Model.Items.Any())
+        {
+            <div class="lux-empty-cart">
+                <p>Ваш кошик порожній.</p>
+                <a href="@Url.Action("Catalog", "Shop")" class="lux-btn-outline" style="margin-top: 16px; display: inline-block;">До каталогу</a>
+            </div>
+        }
+        else
+        {
+            <div class="lux-catalog-layout">
+                <div>
+                    <table class="lux-cart-table">
+                        <thead>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Ціна</th>
+                                <th>Кількість</th>
+                                <th>Сума</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="lux-cart-product">
+                                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=200&auto=format&fit=crop" : item.ImageUrl)" alt="@item.Name" />
+                                            <span>@item.Name</span>
+                                        </div>
+                                    </td>
+                                    <td>@item.Price.ToString("N0") ₴</td>
+                                    <td>
+                                        @using (Html.BeginForm("Update", "Cart", FormMethod.Post, new { style = "display:flex; gap:8px;" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="productId" value="@item.ProductId" />
+                                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="lux-qty-input" />
+                                            <button type="submit" class="lux-btn-outline lux-btn-sm">Оновити</button>
+                                        }
+                                    </td>
+                                    <td>@item.Total.ToString("N0") ₴</td>
+                                    <td>
+                                        @using (Html.BeginForm("Remove", "Cart", FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="productId" value="@item.ProductId" />
+                                            <button type="submit" class="lux-btn-outline lux-btn-sm">Видалити</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <div class="lux-cart-summary">
+                        <div class="row-line">
+                            <span>Товарів у кошику</span>
+                            <span>@Model.TotalItems</span>
+                        </div>
+                        <div class="row-line total">
+                            <span>Загальна сума</span>
+                            <span>@Model.Total.ToString("N0") ₴</span>
+                        </div>
+                        <a href="@Url.Action("Checkout", "Cart")" class="lux-btn-accent" style="width:100%; text-align:center; display:block; margin-top: 16px;">Оформити замовлення</a>
+                        <a href="@Url.Action("Catalog", "Shop")" class="lux-btn-outline" style="width:100%; text-align:center; display:block; margin-top: 10px;">Продовжити покупки</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

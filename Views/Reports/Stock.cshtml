@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Elegant.Models.StockReportViewModel>
+@{ ViewBag.Title = "Залишки на складі"; }
+
+<h2>Звіт: Поточні залишки на складі</h2>
+<p>
+    Цей звіт показує актуальну кількість кожного товару, розраховану на основі всіх прибуткових та видаткових накладних.
+</p>
+<hr />
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ProductArticle)</th>
+            <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.CurrentStock)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            // Додаємо підсвітку для товарів, які закінчились
+            var rowClass = item.CurrentStock <= 0 ? "danger" : "";
+            <tr class="@rowClass">
+                <td>@Html.DisplayFor(modelItem => item.ProductArticle)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                <td class="text-right"><strong>@Html.DisplayFor(modelItem => item.CurrentStock)</strong></td>
+            </tr>
+        }
+    </tbody>
+</table>

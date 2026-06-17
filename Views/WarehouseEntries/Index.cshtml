@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Elegant.Models.WarehouseEntry>
+
+@{
+    ViewBag.Title = "Прибуткові накладні";
+}
+
+<h2>Прибуткові накладні</h2>
+
+<p>
+    @Html.ActionLink("Створити нову накладну", "Create", null, new { @class = "btn btn-primary btn-create" })
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            Номер
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @* Форматуємо дату, щоб прибрати час *@
+                @item.EntryDate.ToString("dd.MM.yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Source)
+            </td>
+            <td class="action-links">
+                @* "Деталі" - це наша основна дія, вона веде на сторінку наповнення *@
+                @Html.ActionLink("Наповнити / Деталі", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

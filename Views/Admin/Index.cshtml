@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Панель управління";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header" style="margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+    <h2>Панель управління магазином</h2>
+</div>
+
+<!-- ===================== СТАТИСТИКА ===================== -->
+<div class="admin-stats-grid">
+    <div class="admin-stat-card">
+        <div class="stat-value">@ViewBag.ProductsCount</div>
+        <div class="stat-label">Товарів у каталозі</div>
+    </div>
+    <div class="admin-stat-card">
+        <div class="stat-value">@ViewBag.CategoriesCount</div>
+        <div class="stat-label">Категорій</div>
+    </div>
+    <div class="admin-stat-card">
+        <div class="stat-value">@ViewBag.OrdersCount</div>
+        <div class="stat-label">Замовлень всього</div>
+    </div>
+    <div class="admin-stat-card @(ViewBag.NewOrdersCount > 0 ? "warn" : "")">
+        <div class="stat-value">@ViewBag.NewOrdersCount</div>
+        <div class="stat-label">Нових замовлень</div>
+    </div>
+    <div class="admin-stat-card @(ViewBag.LowStockCount > 0 ? "warn" : "")">
+        <div class="stat-value">@ViewBag.LowStockCount</div>
+        <div class="stat-label">Товарів закінчується</div>
+    </div>
+    <div class="admin-stat-card">
+        <div class="stat-value">@ViewBag.ReviewsCount</div>
+        <div class="stat-label">Відгуків</div>
+    </div>
+</div>
+
+<!-- ===================== ШВИДКІ ДІЇ ===================== -->
+<div class="row dashboard-grid">
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Products")" class="dashboard-btn">
+            Асортимент товарів
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Create", "Products")" class="dashboard-btn">
+            Додати товар
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Categories")" class="dashboard-btn">
+            Категорії
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Create", "WarehouseEntries")" class="dashboard-btn">
+            Надходження
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Orders", "Admin")" class="dashboard-btn">
+            Замовлення з сайту
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Reviews", "Admin")" class="dashboard-btn">
+            Відгуки
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Stock", "Reports")" class="dashboard-btn">
+            Звіт по залишках
+        </a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Shop")" target="_blank" class="dashboard-btn">
+            Перейти на сайт магазину
+        </a>
+    </div>
+</div>
+
+<!-- ===================== ОСТАННІ ЗАМОВЛЕННЯ ===================== -->
+<div class="page-header" style="margin-top: 40px;">
+    <h3>Останні замовлення</h3>
+</div>
+
+@{ var recentOrders = ViewBag.RecentOrders as System.Collections.Generic.List<Elegant.Models.Order>; }
+@if (recentOrders == null || !recentOrders.Any())
+{
+    <p>Замовлень ще немає.</p>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Дата</th>
+                <th>Клієнт</th>
+                <th>Телефон</th>
+                <th>Сума</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in recentOrders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.Phone</td>
+                    <td>@order.TotalPrice.ToString("N0") ₴</td>
+                    <td>@order.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>@Html.ActionLink("Усі замовлення →", "Orders", "Admin")</p>
+}

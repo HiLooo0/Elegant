@@ -1,0 +1,94 @@
+﻿@model PagedList.IPagedList<Elegant.Models.Product>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Магазин";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<section class="section-padding">
+    <div class="lux-container">
+        <h2 class="lux-section-title">Каталог товарів</h2>
+
+        <div class="lux-catalog-layout">
+            <!-- ===================== ФІЛЬТРИ ===================== -->
+            <aside class="lux-filter-box">
+                <h4>Категорії</h4>
+                <ul>
+                    <li><a href="@Url.Action("Catalog", "Shop", new { sort = ViewBag.Sort })" class="@(ViewBag.SelectedCategoryId == null ? "active" : "")">Всі товари</a></li>
+                    @foreach (var cat in ViewBag.Categories)
+                    {
+                        <li>
+                            <a href="@Url.Action("Catalog", "Shop", new { categoryId = cat.Id, sort = ViewBag.Sort })"
+                               class="@(ViewBag.SelectedCategoryId != null && (int)ViewBag.SelectedCategoryId == cat.Id ? "active" : "")">
+                                @cat.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+                <h4>Сортування</h4>
+                <ul>
+                    <li><a href="@Url.Action("Catalog", "Shop", new { categoryId = ViewBag.SelectedCategoryId, sort = (string)null })" class="@(string.IsNullOrEmpty(ViewBag.Sort) ? "active" : "")">За замовчуванням</a></li>
+                    <li><a href="@Url.Action("Catalog", "Shop", new { categoryId = ViewBag.SelectedCategoryId, sort = "price_asc" })" class="@(ViewBag.Sort == "price_asc" ? "active" : "")">Ціна: спочатку дешеві</a></li>
+                    <li><a href="@Url.Action("Catalog", "Shop", new { categoryId = ViewBag.SelectedCategoryId, sort = "price_desc" })" class="@(ViewBag.Sort == "price_desc" ? "active" : "")">Ціна: спочатку дорогі</a></li>
+                    <li><a href="@Url.Action("Catalog", "Shop", new { categoryId = ViewBag.SelectedCategoryId, sort = "name" })" class="@(ViewBag.Sort == "name" ? "active" : "")">За назвою (А-Я)</a></li>
+                </ul>
+            </aside>
+
+            <!-- ===================== ТОВАРИ ===================== -->
+            <div>
+                @if (!Model.Any())
+                {
+                    <div class="lux-empty-cart">
+                        <p>У цій категорії товарів ще немає.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="lux-products-grid">
+                        @foreach (var product in Model)
+                        {
+                            <div class="lux-product-card">
+                                @if (product.IsFeatured)
+                                {
+                                    <span class="lux-product-badge">Хіт</span>
+                                }
+                                else if (product.OldPrice.HasValue && product.OldPrice > product.Price)
+                                {
+                                    <span class="lux-product-badge">Акція</span>
+                                }
+                                <a href="@Url.Action("Product", "Shop", new { id = product.Id })">
+                                    <img class="lux-product-img" src="@(string.IsNullOrEmpty(product.ImageUrl) ? "https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=600&auto=format&fit=crop" : product.ImageUrl)" alt="@product.Name" />
+                                </a>
+                                <div class="lux-product-info">
+                                    <div class="lux-product-name">
+                                        <a href="@Url.Action("Product", "Shop", new { id = product.Id })" style="color: inherit;">@product.Name</a>
+                                    </div>
+                                    <div class="lux-product-desc">@product.Description</div>
+                                    <div class="lux-product-price">
+                                        @if (product.OldPrice.HasValue && product.OldPrice > product.Price)
+                                        {
+                                            <span class="old">@product.OldPrice.Value.ToString("N0") ₴</span>
+                                        }
+                                        @product.Price.ToString("N0") ₴
+                                    </div>
+                                    @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <input type="hidden" name="quantity" value="1" />
+                                        <button type="submit" class="lux-btn-accent lux-product-buy">Купити</button>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div style="margin-top: 30px; text-align: center;">
+                        @Html.PagedListPager(Model, page => Url.Action("Catalog", new { page, categoryId = ViewBag.SelectedCategoryId, sort = ViewBag.Sort }))
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

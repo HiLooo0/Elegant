@@ -1,0 +1,133 @@
+﻿@model Elegant.Models.Product
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<section class="section-padding">
+    <div class="lux-container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;" class="lux-catalog-layout">
+            <div>
+                <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=900&auto=format&fit=crop" : Model.ImageUrl)"
+                     alt="@Model.Name" style="width:100%; border-radius: 6px; aspect-ratio: 4/5; object-fit: cover; background-color:#ece6dd;" />
+            </div>
+            <div>
+                <h1 style="font-size: 28px; font-weight: 700; margin-top:0;">@Model.Name</h1>
+                @if (Model.Category != null)
+                {
+                    <p style="color: var(--lux-muted); text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">@Model.Category.Name</p>
+                }
+
+                <div class="lux-product-price" style="font-size: 26px; margin: 20px 0;">
+                    @if (Model.OldPrice.HasValue && Model.OldPrice > Model.Price)
+                    {
+                        <span class="old">@Model.OldPrice.Value.ToString("N0") ₴</span>
+                    }
+                    @Model.Price.ToString("N0") ₴
+                </div>
+
+                <p style="line-height: 1.7; color: var(--lux-text);">@Model.Description</p>
+
+                <p style="color: var(--lux-muted); font-size: 14px;">
+                    @if (Model.Stock > 0)
+                    {
+                        <text>В наявності: @Model.Stock шт.</text>
+                    }
+                    else
+                    {
+                        <text>Немає в наявності</text>
+                    }
+                </p>
+
+                @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div style="display:flex; gap: 12px; align-items: center; margin-top: 20px;">
+                        <input type="number" name="quantity" value="1" min="1" class="lux-qty-input" />
+                        <button type="submit" class="lux-btn-accent" @(Model.Stock <= 0 ? "disabled" : "")>Додати в кошик</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- ===================== ВІДГУКИ ===================== -->
+        <div style="margin-top: 60px;">
+            <h2 class="lux-section-title" style="text-align: left;">Відгуки</h2>
+            @{ var reviews = ViewBag.Reviews as System.Collections.Generic.List<Elegant.Models.Review>; }
+            @if (reviews == null || !reviews.Any())
+            {
+                <p style="color: var(--lux-muted);">Поки немає відгуків про цей товар.</p>
+            }
+            else
+            {
+                foreach (var review in reviews)
+                {
+                    <div style="border-bottom: 1px solid var(--lux-border); padding: 16px 0;">
+                        <strong>@review.AuthorName</strong>
+                        <span style="color: var(--lux-accent); margin-left: 10px;">
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                @:★
+                            }
+                        </span>
+                        <p style="margin: 8px 0 0; color: var(--lux-text);">@review.Comment</p>
+                    </div>
+                }
+            }
+
+            <!-- ===================== ФОРМА ВІДГУКУ ===================== -->
+            <div style="margin-top: 30px; max-width: 500px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Залишити відгук</h3>
+                @using (Html.BeginForm("AddReview", "Shop", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@Model.Id" />
+
+                    <div class="form-group" style="margin-bottom: 14px;">
+                        <label style="font-weight: 500; margin-bottom: 6px; display: block;">Оцінка</label>
+                        <select name="rating" class="form-control" style="max-width: 160px;">
+                            <option value="5">5 - Чудово</option>
+                            <option value="4">4 - Добре</option>
+                            <option value="3">3 - Нормально</option>
+                            <option value="2">2 - Погано</option>
+                            <option value="1">1 - Дуже погано</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 14px;">
+                        <label style="font-weight: 500; margin-bottom: 6px; display: block;">Ваш відгук</label>
+                        <textarea name="comment" class="form-control" rows="4" placeholder="Поділіться вашими враженнями про товар..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="lux-btn-accent">Надіслати відгук</button>
+                }
+            </div>
+        </div>
+
+        <!-- ===================== ПОХОЖІ ТОВАРИ ===================== -->
+        @{ var related = ViewBag.Related as System.Collections.Generic.List<Elegant.Models.Product>; }
+        @if (related != null && related.Any())
+        {
+            <div style="margin-top: 60px;">
+                <h2 class="lux-section-title" style="text-align: left;">Схожі товари</h2>
+                <div class="lux-products-grid">
+                    @foreach (var p in related)
+                    {
+                        <div class="lux-product-card">
+                            <a href="@Url.Action("Product", "Shop", new { id = p.Id })">
+                                <img class="lux-product-img" src="@(string.IsNullOrEmpty(p.ImageUrl) ? "https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=600&auto=format&fit=crop" : p.ImageUrl)" alt="@p.Name" />
+                            </a>
+                            <div class="lux-product-info">
+                                <div class="lux-product-name">
+                                    <a href="@Url.Action("Product", "Shop", new { id = p.Id })" style="color: inherit;">@p.Name</a>
+                                </div>
+                                <div class="lux-product-price">@p.Price.ToString("N0") ₴</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,28 @@
+﻿@{
+    bool isAuthenticated = Request.IsAuthenticated;
+    bool isAdmin = isAuthenticated && string.Equals(User.Identity.Name, "elegant@gmail.com", System.StringComparison.OrdinalIgnoreCase);
+    string userName = isAuthenticated ? User.Identity.Name : "";
+}
+@if (isAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display: inline-block; margin: 0; vertical-align: middle;" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (isAdmin)
+        {
+            <a href="@Url.Action("Index", "Admin")" class="nav-link-user" style="margin-right: 15px;">Привіт, @userName!</a>
+        }
+        else
+        {
+            <span class="nav-link-user" style="margin-right: 15px;">Привіт, @userName!</span>
+        }
+
+        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn-logout">Вийти</a>
+    }
+}
+else
+{
+    <a href="@Url.Action("Register", "Account")" id="registerLink" style="margin-right: 15px;">Реєстрація</a>
+    <a href="@Url.Action("Login", "Account")" id="loginLink" class="btn-login">Вхід</a>
+}

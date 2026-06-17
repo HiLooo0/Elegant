@@ -1,0 +1,66 @@
+﻿@model Elegant.Models.Order
+@{
+    ViewBag.Title = "Оформлення замовлення";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+    var cart = this.Context.Session["ElegantCart"] as Elegant.Models.Cart;
+}
+
+<section class="section-padding">
+    <div class="lux-container">
+        <h2 class="lux-section-title">Оформлення замовлення</h2>
+
+        <div class="lux-catalog-layout">
+            <div class="lux-filter-box">
+                @using (Html.BeginForm("Checkout", "Cart", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CustomerName)
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", placeholder = "Ім'я та прізвище" })
+                        @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group" style="margin-top: 14px;">
+                        @Html.LabelFor(m => m.Phone)
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "+380 XX XXX XX XX" })
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group" style="margin-top: 14px;">
+                        @Html.LabelFor(m => m.Address)
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "Місто, вулиця, будинок, квартира" })
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    </div>
+
+                    <button type="submit" class="lux-btn-accent" style="width:100%; margin-top: 24px;">Підтвердити замовлення</button>
+                }
+            </div>
+
+            <div>
+                <div class="lux-cart-summary">
+                    <h4 style="text-transform: uppercase; font-size: 14px; letter-spacing: 1px; margin-top:0;">Ваше замовлення</h4>
+                    @if (cart != null)
+                    {
+                        foreach (var item in cart.Items)
+                        {
+                            <div class="row-line">
+                                <span>@item.Name &times; @item.Quantity</span>
+                                <span>@item.Total.ToString("N0") ₴</span>
+                            </div>
+                        }
+                        <div class="row-line total">
+                            <span>Всього</span>
+                            <span>@cart.Total.ToString("N0") ₴</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

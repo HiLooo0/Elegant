@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Елегант | Склад</title>
+
+    <!-- Підключення стилів -->
+    @Styles.Render("~/Content/css")
+
+    <!-- Підключення шрифту з Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Верхня навігаційна панель -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Кнопка "Гамбургер" для мобільних пристроїв -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Назва-посилання на головну сторінку -->
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                    <img src="@Url.Content("~/Content/logo_white.png")" alt="Логотип Елегант" />
+                </a>
+            <div class="navbar-collapse collapse">
+                <!-- Основні посилання в меню -->
+                <!-- Основні посилання, сховані у випадаюче меню -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Навігація <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Асортимент", "Index", "Products")</li>
+                            <li>@Html.ActionLink("Категорії", "Index", "Categories")</li>
+                            <li>@Html.ActionLink("Залишки на складі", "Stock", "Reports")</li>
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Надходження", "Index", "WarehouseEntries")</li>
+                            <li>@Html.ActionLink("Видаткові накладні", "Index", "WarehouseOutputs")</li>
+
+                            <!-- Сюди в майбутньому можна додати "Відвантаження", "Звіти" і т.д. -->
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.Partial("_LoginPartial")</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основний контент сторінки -->
+    <main class="container body-content">
+        @RenderBody() <!-- Сюди будуть завантажуватись всі інші сторінки -->
+    </main>
+
+    <!-- Підвал сайту -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <!-- Секція 1: Про систему -->
+                <div class="col-md-4">
+                    <h5>Про систему "Елегант | Склад"</h5>
+                    <p class="text-justify">
+                        Внутрішня система для автоматизації складського обліку готової продукції на меблевій фабриці «Елегант».
+                    </p>
+                    <p>
+                        <a href="https://www.mebli-elegant.com.ua/" target="_blank">Офіційний сайт фабрики</a>
+                    </p>
+                </div>
+
+                <!-- Секція 2: Навігація по системі -->
+                <div class="col-md-4">
+                    <h5>Навігація</h5>
+                    <ul class="footer-links">
+                        <li>@Html.ActionLink("Панель управління", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Асортимент товарів", "Index", "Products")</li>
+                        <li>@Html.ActionLink("Категорії", "Index", "Categories")</li>
+                        <li>@Html.ActionLink("Прибуткові накладні", "Index", "WarehouseEntries")</li>
+                        <li>@Html.ActionLink("Видаткові накладні", "Index", "WarehouseOutputs")</li>
+                    </ul>
+                </div>
+
+                <!-- Секція 3: Контакти (з офіційного сайту) -->
+                <div class="col-md-4">
+                    <h5>Контактна інформація</h5>
+                    <ul class="footer-links">
+                        <li><a href="https://maps.google.com/?q=смт. смт. Гусятин, вул. Богдана Лепкого 41а." target="_blank"> смт. Гусятин, вул. Богдана Лепкого 41а.</a></li>
+                        <li><a href="tel:+380673525225">+38 (067) 352 52 25</a></li>
+                        <li><a href="mailto:office@mebli-elegant.com.ua">office@mebli-elegant.com.ua</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">
+                        &copy; @DateTime.Now.Year. Всі права належать ПП «Елегант».
+                    </p>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <p class="author-text">
+                        Розробка: <a href="https://github.com/HiLooo0" target="_blank"><b>Віктор Берлізов</b></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Підключення скриптів в кінці сторінки для швидкого завантаження -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

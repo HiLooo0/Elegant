@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Elegant.Models.Review>
+@{
+    ViewBag.Title = "Модерація відгуків";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Використовує збережений стиль адмінки
+}
+
+<div class="page-header" style="margin-top: 40px;">
+    <h2>Модерація відгуків клієнтів</h2>
+    <p class="lead">Тут ви можете переглядати відгуки покупців та видаляти небажаний вміст (спам).</p>
+</div>
+
+<p>
+    @Html.ActionLink("Назад до панелі", "Index", "Admin", null, new { @class = "btn btn-default" })
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Автор</th>
+            <th>Оцінка</th>
+            <th>Коментар</th>
+            <th style="width: 100px;">Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">Відгуків у базі даних наразі немає.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@item.AuthorName</td>
+                    <td>
+                        <span style="color: #FFC107;">@(new string('★', item.Rating))@(new string('☆', 5 - item.Rating))</span>
+                    </td>
+                    <td>@item.Comment</td>
+                    <td>
+                        <!-- Форма видалення відгуку -->
+                        @using (Html.BeginForm("DeleteReview", "Admin", new { id = item.Id }, FormMethod.Post, new { onsubmit = "return confirm('Ви дійсно хочете видалити цей відгук?');" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-xs">Видалити</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

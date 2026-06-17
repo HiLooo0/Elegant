@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Доступ заборонено";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+
+<section class="section-padding">
+    <div class="lux-container">
+        <div class="lux-empty-cart" style="padding: 100px 20px;">
+            <h2 class="lux-section-title">Доступ заборонено</h2>
+            <p>У вас немає прав для перегляду цієї сторінки.</p>
+            <a href="@Url.Action("Index", "Shop")" class="lux-btn-accent" style="margin-top: 24px; display: inline-block;">На головну</a>
+        </div>
+    </div>
+</section>
